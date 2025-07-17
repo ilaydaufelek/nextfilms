@@ -1,4 +1,4 @@
-import { Loading } from "@/components/loading";
+import  Loading  from "@/components/loading";
 
 import styles from "./styles.module.css";
 

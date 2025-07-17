@@ -1,23 +1,32 @@
 import HomeContainers from "@/containers/home";
-import Movies from '@/mocks/movies.json'
+import { getCategories, getPopulerMovies, getSingleCategory, getTopRatedMovies, } from "@/services/movie";
 
 
 
-async function delay(ms){
-    return new Promise((res)=>setTimeout(res,ms))
-}
+async function Home({params}) {
 
- async function Home({params}) {
-    await delay(10000)
+  
+    const resolvedParams= await params
     let selectedCategory;
-    if(params?.category?.length > 0){
-        selectedCategory=true
 
+
+   const [{results:topRatedMovies}, { results:populerMovies},{genres:categories}]=
+   await Promise.all([getPopulerMovies(),getTopRatedMovies(),getCategories()])
+
+
+
+    if(resolvedParams?.category?.length > 0){
+     const {results} =await getSingleCategory(resolvedParams.category[0])
+     selectedCategory=results
     }
   return (
-  <HomeContainers selectedCategory={{
-    id:params?.category?.[0] ?? '',
-     movies :selectedCategory ? Movies.results.slice(1,7) : []
+  <HomeContainers
+  topRatedMovies={topRatedMovies}
+  populerMovies={populerMovies}
+  categories={categories}
+  selectedCategory={{
+    id:resolvedParams?.category?.[0] ?? '',
+     movies :selectedCategory ? selectedCategory.slice(1,7) : []
   }}
 
    />

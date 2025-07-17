@@ -10,6 +10,8 @@ function FeaturedMovie({ movie = {}, isCompact = true }) {
 
   return (
     <div className={styles.movieWrapper}>
+    
+      
       <h1 className={styles.movieTitle}>{title}</h1>
       <p
         className={`${styles.overview} ${

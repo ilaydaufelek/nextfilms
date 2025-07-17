@@ -1,19 +1,18 @@
 import React from 'react'
-import Movies from '@/mocks/movies.json'
 import MovieContainer from '@/containers/movie'
 import { notFound } from 'next/navigation'
-const MoviePage = ({params,searchParams}) => {
+import { getMovie } from '@/services/movie'
+
+ 
+  const MoviePage = async ({params,searchParams}) => {
     
-  const movieDetail=Movies.results.find(movie=>movie.id.toString() === params.id)
+  const movieDetail=await getMovie(params.id)
 
   if(!movieDetail){
     notFound()
   }
 
-  if(searchParams.eror==='true'){
-    throw new Error('error happened')
 
-  }
 
   return (
    <MovieContainer movie={movieDetail} />
